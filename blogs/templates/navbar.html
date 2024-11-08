@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">BLOG DJANGO</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        <strong><i class="bi bi-house"></i> Inicio</strong>
+                    </a>
+                </li> 
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blogs:featured' %}">
+                        <strong><i class="bi bi-journals"></i> Destacados</strong>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong><i class="bi bi-journal-x"></i> Categorias</strong>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'blogs:category' category.slug %}">{{ category.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li> 
+            </ul>
+        </div>
+        <ul class="navbar-nav auth">
+
+            <form class="d-flex" role="search" action="{% url 'blogs:search' %}" method="get">
+                <input name="search" class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </form>
+
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-primary ms-2" href="{% url 'logout' %}">
+                        <strong><i class="bi bi-person-lock"></i> Cerrar sesión</strong>
+                    </a>
+                </li>
+
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-primary ms-2" href="{% url 'users:registration' %}">
+                        <strong><i class="bi bi-person-plus-fill"></i> Reguístrate ya!</strong>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link btn btn-outline-primary ms-2" href="{% url 'login' %}">
+                        <strong><i class="bi bi-person-square"></i> Inicia tu sesión</strong>
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+    </div>
+</nav>
